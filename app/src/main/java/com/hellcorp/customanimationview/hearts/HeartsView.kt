@@ -15,6 +15,7 @@ import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import com.hellcorp.customanimationview.R
 import kotlin.math.min
+import kotlin.random.Random
 
 class HeartsView @JvmOverloads constructor(
     context: Context,
@@ -32,11 +33,24 @@ class HeartsView @JvmOverloads constructor(
         translationAnimation()
     }
 
+    private val colors = listOf(
+        R.color.heart_color1,
+        R.color.heart_color2,
+        R.color.heart_color3,
+        R.color.heart_color4,
+        R.color.heart_color5,
+        R.color.heart_color6,
+        R.color.heart_color7,
+        R.color.heart_color8,
+        R.color.heart_color9,
+        R.color.heart_color10
+    )
+
     private val minViewSize = resources.getDimensionPixelSize(
         R.dimen.hearts_view_size
     )
     private val paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.heart_color1)
+        color = ContextCompat.getColor(context, colors[Random.nextInt(colors.lastIndex)])
         style = Paint.Style.FILL
     }
     private val path = Path()
