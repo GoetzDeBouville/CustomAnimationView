@@ -29,6 +29,7 @@ class HeartsView @JvmOverloads constructor(
 ) {
     init {
         animateAppearance()
+        translationAnimation()
     }
 
     private val minViewSize = resources.getDimensionPixelSize(
@@ -83,13 +84,24 @@ class HeartsView @JvmOverloads constructor(
         valueAnimator.start()
     }
 
-    private fun transitionAnimation() {
-        TODO("build transition animation")
+    private fun translationAnimation() {
+        ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 2000
+            addUpdateListener { animation ->
+                val value = animation.animatedValue as Float
+                val x = (Math.sin(value * Math.PI * 2) * 400).toFloat()
+                val y = -1000f * value
+                translationX = x
+                translationY = y
+            }
+            fadingOut()
+            start()
+        }
     }
 
     private fun animateAppearance() {
-        val scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0f, 1f)
-        val scaleY = ObjectAnimator.ofFloat(this, "scaleY", 0f, 1f)
+        val scaleX = ObjectAnimator.ofFloat(this, PROPERTY_SCALE_X, 0f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(this, PROPERTY_SCALE_Y, 0f, 1f)
 
         val animatorSet = AnimatorSet().apply {
             playTogether(scaleX, scaleY)
@@ -108,9 +120,19 @@ class HeartsView @JvmOverloads constructor(
         animatorSet.start()
     }
 
+    private fun fadingOut() {
+        ObjectAnimator.ofFloat(this, PROPERTY_ALPHA, 1f, 0f).apply {
+            duration = 2000
+            start()
+        }
+
+    }
+
     companion object {
         const val PROPERTY_SCALE_X = "scaleX"
         const val PROPERTY_SCALE_Y = "scaleY"
+        const val PROPERTY_TRANSLATION_X = "translationX"
+        const val PROPERTY_TRANSLATION_Y = "translationY"
         const val PROPERTY_ALPHA = "alpha"
     }
 }
