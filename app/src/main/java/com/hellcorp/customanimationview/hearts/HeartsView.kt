@@ -125,7 +125,6 @@ class HeartsView @JvmOverloads constructor(
             duration = 2000
             start()
         }
-
     }
 
     companion object {
